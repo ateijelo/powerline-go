@@ -34,6 +34,7 @@ type Theme struct {
 
 	HostnameFg uint8
 	HostnameBg uint8
+	Hostname   string
 
 	// The foreground-background mapping is precomputed and stored in a map for improved performance
 	// The old script used to brute-force this at runtime
@@ -90,8 +91,10 @@ type Theme struct {
 
 	GitAheadFg      uint8
 	GitAheadBg      uint8
+	GitAheadSymbol  string
 	GitBehindFg     uint8
 	GitBehindBg     uint8
+	GitBehindSymbol string
 	GitStagedFg     uint8
 	GitStagedBg     uint8
 	GitNotStagedFg  uint8

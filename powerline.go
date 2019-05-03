@@ -26,6 +26,8 @@ type ShellInfo struct {
 	evalPromptSuffix      string
 	evalPromptRightPrefix string
 	evalPromptRightSuffix string
+	startItalics          string
+	endItalics            string
 }
 
 type powerline struct {
@@ -149,6 +151,10 @@ func initSegments(p *powerline, mods []string) {
 	}
 }
 
+func (p *powerline) startItalics() string {
+	return p.shellInfo.startItalics
+}
+
 func (p *powerline) color(prefix string, code uint8) string {
 	if code == p.theme.Reset {
 		return p.reset
@@ -175,6 +181,9 @@ func (p *powerline) appendSegment(origin string, segment pwl.Segment) {
 		} else {
 			segment.Separator = p.symbolTemplates.Separator
 		}
+	}
+	if segment.Separator == "empty" {
+		segment.Separator = ""
 	}
 	if segment.SeparatorForeground == 0 {
 		segment.SeparatorForeground = segment.Background
@@ -304,7 +313,12 @@ func (p *powerline) drawRow(rowNum int, buffer *bytes.Buffer) {
 		buffer.WriteRune(' ')
 	}
 	for idx, segment := range row {
+		if segment.Italics {
+			buffer.WriteString(p.startItalics())
+		}
 		if segment.HideSeparators {
+			//buffer.WriteString(p.fgColor(segment.foreground))
+			//buffer.WriteString(p.bgColor(segment.background))
 			buffer.WriteString(segment.Content)
 			continue
 		}
@@ -334,12 +348,12 @@ func (p *powerline) drawRow(rowNum int, buffer *bytes.Buffer) {
 		}
 		buffer.WriteString(p.fgColor(segment.Foreground))
 		buffer.WriteString(p.bgColor(segment.Background))
-		if !*p.args.Condensed {
+		if !(segment.Compact || *p.args.Condensed) {
 			buffer.WriteRune(' ')
 		}
 		buffer.WriteString(segment.Content)
 		numEastAsianRunes += p.numEastAsianRunes(&segment.Content)
-		if !*p.args.Condensed {
+		if !(segment.Compact || *p.args.Condensed) {
 			buffer.WriteRune(' ')
 		}
 		if !p.isRightPrompt() {
@@ -356,11 +370,11 @@ func (p *powerline) drawRow(rowNum int, buffer *bytes.Buffer) {
 	}
 
 	// Don't append padding for right-aligned modules
-	if !p.isRightPrompt() {
-		for i := 0; i < numEastAsianRunes; i++ {
-			buffer.WriteRune(' ')
-		}
-	}
+	// if !p.isRightPrompt() {
+	// 	for i := 0; i < numEastAsianRunes; i++ {
+	// 		buffer.WriteRune(' ')
+	// 	}
+	// }
 }
 
 func (p *powerline) draw() string {

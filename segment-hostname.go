@@ -2,10 +2,11 @@ package main
 
 import (
 	"crypto/md5"
-	pwl "github.com/justjanne/powerline-go/powerline"
 	"os"
 	"strconv"
 	"strings"
+
+	pwl "github.com/justjanne/powerline-go/powerline"
 )
 
 func getHostName(fullyQualifiedDomainName string) string {
@@ -29,7 +30,11 @@ func segmentHost(p *powerline) []pwl.Segment {
 		}
 	}
 
-	if *p.args.ColorizeHostname {
+	foreground = p.theme.HostnameFg
+	background = p.theme.HostnameBg
+	if p.theme.Hostname != "" {
+		hostPrompt = p.theme.Hostname
+	} else if *p.args.ColorizeHostname {
 		hostName := getHostName(p.hostname)
 		hostPrompt = hostName
 
@@ -51,9 +56,6 @@ func segmentHost(p *powerline) []pwl.Segment {
 		} else {
 			hostPrompt = getHostName(p.hostname)
 		}
-
-		foreground = p.theme.HostnameFg
-		background = p.theme.HostnameBg
 	}
 
 	return []pwl.Segment{{

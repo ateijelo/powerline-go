@@ -15,8 +15,8 @@ var symbolTemplates = map[string]Symbols{
 		RepoBehind:     "\u2B07",
 		RepoStaged:     "\u2714",
 		RepoNotStaged:  "\u270E",
-		RepoUntracked:  "+",
-		RepoConflicted: "\u273C",
+		RepoUntracked:  "…",
+		RepoConflicted: "✖",
 		RepoStashed:    "\u2691",
 	},
 	"patched": {
@@ -34,8 +34,8 @@ var symbolTemplates = map[string]Symbols{
 		RepoBehind:     "\u2B07",
 		RepoStaged:     "\u2714",
 		RepoNotStaged:  "\u270E",
-		RepoUntracked:  "+",
-		RepoConflicted: "\u273C",
+		RepoUntracked:  "…",
+		RepoConflicted: "✖",
 		RepoStashed:    "\u2691",
 	},
 	"flat": {
@@ -44,8 +44,8 @@ var symbolTemplates = map[string]Symbols{
 		RepoBehind:     "\u2B07",
 		RepoStaged:     "\u2714",
 		RepoNotStaged:  "\u270E",
-		RepoUntracked:  "+",
-		RepoConflicted: "\u273C",
+		RepoUntracked:  "…",
+		RepoConflicted: "✖",
 		RepoStashed:    "\u2691",
 	},
 }
@@ -59,6 +59,8 @@ var shellInfos = map[string]ShellInfo{
 		escapedDollar:    `\$`,
 		evalPromptPrefix: `PS1="`,
 		evalPromptSuffix: `"`,
+		startItalics:     "\\e[3m",
+		endItalics:       "\\e[23m",
 	},
 	"zsh": {
 		colorTemplate:         "%%{\u001b%s%%}",

@@ -24,6 +24,8 @@ type Segment struct {
 	Width          int
 	// NewLine defines a newline segment to break the powerline in multi lines
 	NewLine bool
+	Italics bool
+	Compact bool
 }
 
 func (s Segment) ComputeWidth(condensed bool) int {

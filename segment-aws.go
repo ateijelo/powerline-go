@@ -1,8 +1,9 @@
 package main
 
 import (
-	pwl "github.com/justjanne/powerline-go/powerline"
 	"os"
+
+	pwl "github.com/justjanne/powerline-go/powerline"
 )
 
 func segmentAWS(p *powerline) []pwl.Segment {
@@ -15,7 +16,7 @@ func segmentAWS(p *powerline) []pwl.Segment {
 		}
 		return []pwl.Segment{{
 			Name:       "aws",
-			Content:    profile + r,
+			Content:    "\uf1b3  " + profile + r,
 			Foreground: p.theme.AWSFg,
 			Background: p.theme.AWSBg,
 		}}

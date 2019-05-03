@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	pwl "github.com/justjanne/powerline-go/powerline"
 	"os"
 	"os/exec"
 	"path"
 	"regexp"
 	"strconv"
 	"strings"
+
+	pwl "github.com/justjanne/powerline-go/powerline"
 )
 
 type repoStats struct {
@@ -32,6 +33,7 @@ func addRepoStatsSegment(nChanges int, symbol string, foreground uint8, backgrou
 			Content:    fmt.Sprintf("%d%s", nChanges, symbol),
 			Foreground: foreground,
 			Background: background,
+			Separator:  "empty",
 		}}
 	}
 	return []pwl.Segment{}
@@ -157,7 +159,7 @@ func segmentGit(p *powerline) []pwl.Segment {
 
 	indexSize, err := indexSize(p.cwd)
 	args := []string{
-		"status", "--porcelain", "-b", "--ignore-submodules",
+		"status", "--porcelain", "-b", //"--ignore-submodules",
 	}
 
 	if *p.args.GitAssumeUnchangedSize > 0 && indexSize > (*p.args.GitAssumeUnchangedSize*1024) {
@@ -209,7 +211,15 @@ func segmentGit(p *powerline) []pwl.Segment {
 		Content:    branch,
 		Foreground: foreground,
 		Background: background,
+		Italics:    true,
+		Separator:  "empty",
 	}}
 	segments = append(segments, stats.GitSegments(p)...)
+	segments = append(segments, []pwl.Segment{{
+		Content:    "",
+		Compact:    true,
+		Foreground: foreground,
+		Background: background,
+	}}...)
 	return segments
 }
